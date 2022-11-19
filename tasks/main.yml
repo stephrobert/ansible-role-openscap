@@ -14,12 +14,17 @@
     cmd: cmake .. -DCMAKE_INSTALL_PREFIX=/usr
     chdir: /tmp/openscap/build
   become: true
+  register: my_output
+  changed_when: my_output.rc != 0
 - name: Build and Install
   ansible.builtin.shell:
     cmd: make && make install
     chdir: /tmp/openscap/build
   become: true
-- name: Install Content
+  register: my_output
+  changed_when: my_output.rc != 0
+- name: Install Content Block
+  when: install_content
   block:
     - name: Create foler to put ComplianceAsCode project
       ansible.builtin.file:
@@ -37,4 +42,3 @@
         extra_opts: '-j'
       become: true
       tags: test
-  when: install_content
