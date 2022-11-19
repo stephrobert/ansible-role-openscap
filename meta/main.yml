@@ -1,0 +1,16 @@
+galaxy_info:
+  author: Stephane ROBERT
+  namespace: stephrobert
+  description: Install Oscap
+  license: MLP2
+  min_ansible_version: "2.11"
+  platforms:
+    - name: Debian
+      versions:
+        - bullseye
+    - name: Ubuntu
+      versions:
+        - jammy
+  galaxy_tags:
+    - hardening
+dependencies: []

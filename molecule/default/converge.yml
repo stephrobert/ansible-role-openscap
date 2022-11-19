@@ -1,0 +1,9 @@
+---
+- name: Converge
+  hosts: all
+
+  roles:
+    - name: stephrobert.oscap
+      vars:
+        - install_content: true
+

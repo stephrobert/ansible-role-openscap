@@ -1,0 +1,38 @@
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+  when: ansible_os_family == 'Debian'
+  become: true
+
+- name: Install package to build oscap
+  ansible.builtin.package:
+    name:
+      - cmake
+      - libdbus-1-dev
+      - libdbus-glib-1-dev
+      - libcurl4-openssl-dev
+      - libgcrypt20-dev
+      - libselinux1-dev
+      - libxslt1-dev
+      - libgconf2-dev
+      - libacl1-dev
+      - libblkid-dev
+      - libcap-dev
+      - libxml2-dev
+      - libldap2-dev
+      - libpcre3-dev
+      - python3-dev
+      - swig
+      - libxml-parser-perl
+      - libxml-xpath-perl
+      - libperl-dev
+      - libbz2-dev
+      - librpm-dev
+      - g++
+      - libapt-pkg-dev
+      - libyaml-dev
+      - libxmlsec1-dev
+      - libxmlsec1-openssl
+      - unzip
+    state: present
+  become: true

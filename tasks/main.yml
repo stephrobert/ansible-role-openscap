@@ -1,0 +1,40 @@
+- name: Include task
+  ansible.builtin.include_tasks:
+    file: "{{ ansible_distribution | lower }}{{ ansible_distribution_major_version }}.yml"
+- name: Clone oscap project
+  ansible.builtin.git:
+    repo: https://github.com/OpenSCAP/openscap.git
+    dest: /tmp/openscap
+    version: "{{ oscap_version }}"
+    recursive: true
+    force: true
+  become: true
+- name: Cmake
+  ansible.builtin.shell:
+    cmd: cmake .. -DCMAKE_INSTALL_PREFIX=/usr
+    chdir: /tmp/openscap/build
+  become: true
+- name: Build and Install
+  ansible.builtin.shell:
+    cmd: make && make install
+    chdir: /tmp/openscap/build
+  become: true
+- name: Install Content
+  block:
+    - name: Create foler to put ComplianceAsCode project
+      ansible.builtin.file:
+        mode: 0755
+        owner: root
+        path: /opt/openscap-content
+        state: directory
+      become: true
+      tags: test
+    - name: Unzip ComplianceAsCode project
+      ansible.builtin.unarchive:
+        src: "https://github.com/ComplianceAsCode/content/releases/download/v0.1.64/scap-security-guide-{{ content_version }}.zip"
+        dest: /opt/openscap-content
+        remote_src: yes
+        extra_opts: '-j'
+      become: true
+      tags: test
+  when: install_content

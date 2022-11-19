@@ -1,0 +1,16 @@
+---
+name: Import role on Ansible Galaxy
+
+on:  # yamllint disable-line rule:truthy
+  release:
+    types:
+      - released
+jobs:
+  release:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: galaxy
+        uses: robertdebock/galaxy-action@1.2.1
+        with:
+          galaxy_api_key: ${{ secrets.galaxy_api_key }}
+          git_branch: main
