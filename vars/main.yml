@@ -1,7 +1,1 @@
 ---
-# vars file for hardening
-uncessery_packages:
-  - telnet
-  - xinetd
-  - rsh
-  - talk
