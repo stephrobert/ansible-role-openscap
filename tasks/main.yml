@@ -16,6 +16,8 @@
   become: true
   register: my_output
   changed_when: my_output.rc != 0
+  tags:
+    - skip_ansible_lint
 - name: Build and Install
   ansible.builtin.shell:
     cmd: make && make install
@@ -40,5 +42,5 @@
         remote_src: yes
         extra_opts: '-j'
       become: true
-      register: my_output
-      changed_when: my_output.rc != 0
+      tags:
+        - skip_ansible_lint
