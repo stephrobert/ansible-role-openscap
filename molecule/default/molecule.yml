@@ -30,3 +30,12 @@ lint:
   yamllint .
   ansible-lint
   flake8
+
+scenario:
+  test_sequence:
+    - destroy
+    - create
+    - converge
+    # - idempotence
+    - lint
+    - verify
