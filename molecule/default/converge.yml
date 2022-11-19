@@ -1,8 +1,9 @@
 ---
 - name: Converge
   hosts: all
-
-  roles:
-    - name: stephrobert.openscap
+  tasks:
+    - name: Include role
+      ansible.builtin.include_role:
+        name: ansible-role-openscap
       vars:
         - install_content: true
