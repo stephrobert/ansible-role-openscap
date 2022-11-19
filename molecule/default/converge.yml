@@ -3,7 +3,6 @@
   hosts: all
 
   roles:
-    - name: stephrobert.oscap
+    - name: stephrobert.openscap
       vars:
         - install_content: true
-
