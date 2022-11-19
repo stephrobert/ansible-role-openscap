@@ -33,7 +33,6 @@
         path: /opt/openscap-content
         state: directory
       become: true
-      tags: test
     - name: Unzip ComplianceAsCode project
       ansible.builtin.unarchive:
         src: "https://github.com/ComplianceAsCode/content/releases/download/v0.1.64/scap-security-guide-{{ content_version }}.zip"
@@ -41,4 +40,5 @@
         remote_src: yes
         extra_opts: '-j'
       become: true
-      tags: test
+      register: my_output
+      changed_when: my_output.rc != 0
