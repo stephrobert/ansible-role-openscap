@@ -28,13 +28,16 @@
 - name: Install Content Block
   when: install_content
   block:
-    - name: Create foler to put ComplianceAsCode project
+    - name: Create folder to put ComplianceAsCode project
       ansible.builtin.file:
         mode: 0755
         owner: root
-        path: /opt/openscap-content
+        path: "{{ item }}"
         state: directory
       become: true
+      with_items:
+        - /opt/openscap-content
+        - /opt/reports
     - name: Unzip ComplianceAsCode project
       ansible.builtin.unarchive:
         src: "https://github.com/ComplianceAsCode/content/releases/download/v{{ content_version }}/scap-security-guide-{{ content_version }}.zip"
@@ -42,3 +45,22 @@
         remote_src: true
         extra_opts: '-j'
       become: true
+- name: Install Content Block
+  when: scan
+  block:
+    - name: Scan
+      ansible.builtin.shell:
+        cmd: "oscap xccdf eval --profile {{ openscap_profile }} --results-arf arf.xml --report /opt/reports/report-{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version }}.html /opt/openscap-content/{{ openscap_security_policy }}"
+      become: true
+      register: result
+      failed_when: result.rc == 1
+      changed_when: false
+      tags:
+        - skip_ansible_lint
+    - name: Get reports
+      ansible.builtin.fetch:
+        src: "/opt/reports/report-{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version }}.html"
+        dest: "./"
+        flat: true
+      become: true
+

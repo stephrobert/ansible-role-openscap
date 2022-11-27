@@ -37,3 +37,7 @@
       - git
     state: present
   become: true
+- name: Set profile variables
+  ansible.builtin.set_fact:
+    openscap_profile: "xccdf_org.ssgproject.content_profile_cis_level2_server"
+    openscap_security_policy: "ssg-ubuntu2204-ds.xml"
