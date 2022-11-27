@@ -1,38 +1,107 @@
-Role Name
-=========
+# stephrobert.openscap
 
-A brief description of the role goes here.
+[![Maintainer](https://img.shields.io/badge/maintained%20by-stephrobert-e00000?style=flat-square)](https://github.com/stephrobert)
+[![License](https://img.shields.io/github/license/stephrobert/ansible-role-openscap?style=flat-square)](https://github.com/stephrobert/ansible-role-openscap/blob/main/LICENSE)
+[![Release](https://img.shields.io/github/v/release/stephrobert/ansible-role-openscap?style=flat-square)](https://github.com/stephrobert/ansible-role-openscap/releases)
+[![Status](https://img.shields.io/github/workflow/status/stephrobert/ansible-role-openscap/Ansible%20Molecule?style=flat-square&label=tests)](https://github.com/stephrobert/ansible-role-openscap/actions?query=workflow%3A%22Ansible+Molecule%22)
+[![Ansible Galaxy](https://img.shields.io/badge/ansible-galaxy-black.svg?style=flat-square&logo=ansible)](https://galaxy.ansible.com/stephrobert/openscap)[![Ansible version](https://img.shields.io/badge/ansible-%3E%3D2.10-black.svg?style=flat-square&logo=ansible)](https://github.com/ansible/ansible)
 
-Requirements
-------------
+⭐ Star us on GitHub — it motivates us a lot!
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Install Oscap
 
-Role Variables
---------------
+**Platforms Supported**:
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+| Platform | Versions |
+|----------|----------|
+| Debian | bullseye |
+| Ubuntu | jammy |
 
-Dependencies
-------------
+## ⚠️ Requirements
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+Ansible >= 2.11.
 
-Example Playbook
-----------------
+### Ansible role dependencies
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+None.
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+## ⚡ Installation
 
-License
--------
+### Install with Ansible Galaxy
 
-BSD
+```shell
+ansible-galaxy install stephrobert.openscap
+```
 
-Author Information
-------------------
+### Install with git
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+If you do not want a global installation, clone it into your `roles_path`.
+
+```bash
+git clone git@github.com:stephrobert/ansible-role-openscap.git  stephrobert.openscap
+```
+
+But I often add it as a submodule in a given `playbook_dir` repository.
+
+```bash
+git submodule add git@github.com:stephrobert/ansible-role-openscap.git roles/stephrobert.openscap
+```
+
+As the role is not managed by Ansible Galaxy, you do not have to specify the
+github user account.
+
+### ✏️ Example Playbook
+
+Basic usage is:
+
+```yaml
+- hosts: all
+  roles:
+    - role: stephrobert.openscap
+      vars:
+        content_version: 0.1.64
+        install_content: false
+        install_oscap: true
+        oscap_version: 1.3.6
+        reports_folder: /opt/openscap-reports
+        scan: false
+        
+```
+
+## ⚙️ Role Variables
+
+Variables are divided in three types.
+
+The **default vars** section shows you which variables you may
+override in your ansible inventory. As a matter of fact, all variables should
+be defined there for explicitness, ease of documentation as well as overall
+role manageability.
+
+The **context variables** are shown in section below hint you
+on how runtime context may affects role execution.
+
+### Default variables
+Role default variables from `defaults/main.yml`.
+
+| Variable Name | Value |
+|---------------|-------|
+| install_content | False |
+| install_oscap | True |
+| oscap_version | 1.3.6 |
+| content_version | 0.1.64 |
+| scan | False |
+| reports_folder | /opt/openscap-reports |
+
+### Context variables
+
+Those variables from `vars/*.{yml,json}` are loaded dynamically during task
+runtime using the `include_vars` module.
+
+Variables loaded from `vars/main.yml`.
+
+
+
+
+## Author Information
+
+none
