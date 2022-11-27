@@ -37,10 +37,9 @@
       become: true
     - name: Unzip ComplianceAsCode project
       ansible.builtin.unarchive:
-        src: "https://github.com/ComplianceAsCode/content/releases/download/v0.1.64/scap-security-guide-{{ content_version }}.zip"
+        src: "https://github.com/ComplianceAsCode/content/releases/download/v{{ content_version }}/scap-security-guide-{{ content_version }}.zip"
         dest: /opt/openscap-content
-        remote_src: yes
+        remote_src: true
         extra_opts: '-j'
       become: true
-      tags:
-        - skip_ansible_lint
+
