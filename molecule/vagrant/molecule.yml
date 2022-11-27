@@ -1,0 +1,30 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: vagrant
+  provider:
+    name: libvirt
+  provision: true
+  cachier: machine
+  parallel: false
+
+platforms:
+  - name: hardening-debian
+    box: debian/bullseye64
+    # box: generic/ubuntu2204
+    memory: 1024
+    cpus: 2
+    interfaces:
+      # `network_name` is the required identifier, all other keys map to
+      # arguments.
+      - auto_config: true
+        network_name: private_network
+        type: dhcp
+      - network_name: forwarded_port
+        guest: 22
+        host: 2222
+provisioner:
+  name: ansible
+verifier:
+  name: ansible
