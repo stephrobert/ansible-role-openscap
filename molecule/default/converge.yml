@@ -7,3 +7,4 @@
         name: ansible-role-openscap
       vars:
         - install_content: true
+        - scan: true
