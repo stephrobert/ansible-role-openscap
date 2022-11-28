@@ -10,7 +10,7 @@ driver:
   parallel: false
 
 platforms:
-  - name: hardening-debian
+  - name: openscape-debian
     box: debian/bullseye64
     # box: generic/ubuntu2204
     memory: 1024
