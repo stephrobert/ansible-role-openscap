@@ -37,8 +37,3 @@
       - unzip
     state: present
   become: true
-
-- name: Set profile variables
-  ansible.builtin.set_fact:
-    openscap_profile: "xccdf_org.ssgproject.content_profile_anssi_np_nt28_high"
-    openscap_security_policy: "ssg-debian11-ds.xml"

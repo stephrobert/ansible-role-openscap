@@ -10,7 +10,7 @@ driver:
   parallel: false
 
 platforms:
-  - name: openscape-debian
+  - name: openscap-debian
     box: debian/bullseye64
     # box: generic/ubuntu2204
     memory: 1024
