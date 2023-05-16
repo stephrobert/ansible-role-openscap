@@ -1,8 +1,9 @@
+---
 - name: Include variables
   ansible.builtin.include_vars: "{{ ansible_distribution | lower }}{{ ansible_distribution_major_version }}-var.yml"
 - name: Test version
   ansible.builtin.shell:
-    cmd: "oscap --version | head -1 | awk '{print $6}'"
+    cmd: oscap --version | head -1 | awk '{print $6}'
   register: version
   failed_when: false
   changed_when: version.stdout != oscap_version
@@ -47,7 +48,7 @@
         - skip_ansible_lint
 - name: Create folder to put ComplianceAsCode project
   ansible.builtin.file:
-    mode: 0755
+    mode: "0755"
     owner: root
     path: "{{ item }}"
     state: directory
@@ -69,17 +70,19 @@
   block:
     - name: Unzip ComplianceAsCode project
       ansible.builtin.unarchive:
-        src: "https://github.com/ComplianceAsCode/content/releases/download/v{{ content_version }}/scap-security-guide-{{ content_version }}.zip"
+        src: https://github.com/ComplianceAsCode/content/releases/download/v{{ content_version }}/scap-security-guide-{{ content_version }}.zip
         dest: /opt/openscap-content/
         remote_src: true
-        extra_opts: '-j'
+        extra_opts: -j
       become: true
 - name: Scan
   when: scan
   block:
     - name: Scan
       ansible.builtin.shell:
-        cmd: "oscap xccdf eval --fetch-remote-resources --profile {{ openscap_profile }} --results-arf /tmp/openscap-reports/arf-{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version }}.xml --report /tmp/openscap-reports/report-{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version }}.html /opt/openscap-content/{{ openscap_security_policy }}"
+        cmd: oscap xccdf eval --fetch-remote-resources --profile {{ openscap_profile }} --results-arf /tmp/openscap-reports/arf-{{ ansible_distribution | lower }}-{{
+          ansible_distribution_major_version }}.xml --report /tmp/openscap-reports/report-{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version
+          }}.html /opt/openscap-content/{{ openscap_security_policy }}
       become: true
       register: result
       failed_when: result.rc == 1
@@ -89,9 +92,9 @@
     - name: Get reports
       ansible.builtin.fetch:
         src: "{{ item }}"
-        dest: "./"
+        dest: ./
         flat: true
       become: true
       with_items:
-        - "/tmp/openscap-reports/report-{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version }}.html"
-        - "/tmp/openscap-reports/arf-{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version }}.xml"
+        - /tmp/openscap-reports/report-{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version }}.html
+        - /tmp/openscap-reports/arf-{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version }}.xml
