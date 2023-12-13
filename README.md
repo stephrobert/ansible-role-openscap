@@ -59,10 +59,10 @@ Basic usage is:
   roles:
     - role: stephrobert.openscap
       vars:
-        content_version: 0.1.67
+        content_version: 0.1.71
         install_content: false
         install_oscap: true
-        oscap_version: 1.3.7
+        oscap_version: 1.3.9
         reports_folder: /opt/openscap-reports
         scan: false
         
@@ -87,8 +87,8 @@ Role default variables from `defaults/main.yml`.
 |---------------|-------|
 | install_content | False |
 | install_oscap | True |
-| oscap_version | 1.3.7 |
-| content_version | 0.1.67 |
+| oscap_version | 1.3.9 |
+| content_version | 0.1.71 |
 | scan | False |
 | reports_folder | /opt/openscap-reports |
 
