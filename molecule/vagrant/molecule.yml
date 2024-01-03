@@ -11,7 +11,7 @@ driver:
 
 platforms:
   - name: openscap-debian
-    box: debian/bullseye64
+    box: generic/debian12
     # box: generic/ubuntu2204
     memory: 1024
     cpus: 2

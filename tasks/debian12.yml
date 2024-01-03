@@ -6,6 +6,7 @@
 - name: Install package to build oscap
   ansible.builtin.package:
     name:
+      - git
       - cmake
       - libdbus-1-dev
       - libdbus-glib-1-dev
@@ -33,6 +34,5 @@
       - libxmlsec1-dev
       - libxmlsec1-openssl
       - unzip
-      - git
     state: present
   become: true
