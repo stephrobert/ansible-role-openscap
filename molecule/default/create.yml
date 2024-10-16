@@ -1,0 +1,39 @@
+---
+- name: Create
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  no_log: "{{ molecule_no_log }}"
+  vars:
+    default_private_key_path: "{{ lookup('env', 'HOME') }}/.ssh/id_ed25519"
+    default_public_key_path: "{{ default_private_key_path }}.pub"
+    default_ssh_user: bob
+    default_ssh_port: 22
+    default_memory: 1024
+    default_cpus: 1
+
+    platform_defaults:
+      private_key_path: "{{ default_private_key_path }}"
+      public_key_path: "{{ default_public_key_path }}"
+      ssh_user: "{{ default_ssh_user }}"
+      ssh_port: "{{ default_ssh_port }}"
+      image_name: ""
+      name: ""
+      memory: "{{ default_memory }}"
+      cpus: "{{ default_cpus }}"
+
+    # Merging defaults into a list of dicts is, it turns out, not straightforward
+    platforms: >-
+      {{ [platform_defaults | dict2items]
+        | product(molecule_yml.platforms | map('dict2items') | list)
+        | map('flatten', levels=1)
+        | list
+        | map('items2dict')
+        | list }}
+
+  tasks:
+    - name: Create
+      ansible.builtin.include_tasks: incus-create.yml
+      loop: '{{ platforms }}'
+      loop_control:
+        loop_var: platform

@@ -1,0 +1,4 @@
+---
+- name: Destroy VM
+  ansible.builtin.shell:
+    cmd: "incus delete {{ platform.instance }} --force"

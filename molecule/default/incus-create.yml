@@ -1,0 +1,44 @@
+---
+- name: Test if VM already Exist
+  ansible.builtin.shell:
+    cmd: "incus list -f json {{ platform.name }}"
+  register: instance_exist
+- name: Convert to JSON
+  ansible.builtin.set_fact:
+    instance: "{{ instance_exist.stdout | from_json }}"
+- block:
+  - name: Provision instance {{ platform.name }}
+    ansible.builtin.shell:
+      cmd: "incus launch {{ platform.image }} {{ platform.name }} --config limits.cpu={{ platform.cpus }} --config limits.memory={{ platform.memory }}MiB"
+  - name: Pause 5s
+    ansible.builtin.pause:
+      seconds: 5
+  when: instance | length == 0
+- name: Test if VM already Exist
+  ansible.builtin.shell:
+    cmd: "incus list -f json {{ platform.name }}"
+  register: instance_exist
+- name: Convert to JSON
+  ansible.builtin.set_fact:
+    state: "{{ instance_exist.stdout | from_json }}"
+- name: Create instance config file
+  ansible.builtin.file:
+    path: "{{ lookup('env', 'MOLECULE_EPHEMERAL_DIRECTORY') }}/instance_config.yml"
+    state: touch
+    mode: "0644"
+- name: Get IP
+  vars:
+    jmesquery: "[*].state.network.eth0.addresses[?family==`inet`].address[]"
+  ansible.builtin.set_fact:
+    ip: "{{ state | community.general.json_query(jmesquery) | first }}"
+- name: Register instance config for VM {{ platform.name }}
+  ansible.builtin.blockinfile:
+    path: "{{ lookup('env', 'MOLECULE_EPHEMERAL_DIRECTORY') }}/instance_config.yml"
+    block: "- { address: {{ ip }} , identity_file: {{ platform.private_key_path }}, instance: {{ platform.name }}, port: {{ platform.ssh_port }}, user: {{ platform.ssh_user }} }"
+    marker: '# {mark} Instance : {{ platform.name }}'
+    marker_begin: 'BEGIN'
+    marker_end: 'END'
+- name: Add to group molecule_hosts {{ platform.name }}
+  ansible.builtin.add_host:
+    name: "{{ ip }}"
+    groups: molecule_hosts
