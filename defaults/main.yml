@@ -1,7 +1,7 @@
 ---
 install_content: false
 install_oscap: true
-oscap_version: 1.3.9
-content_version: 0.1.71
+oscap_version: 1.4,0
+content_version: 0.1.74
 scan: false
 reports_folder: /opt/openscap-reports
