@@ -38,13 +38,13 @@ ansible-galaxy install stephrobert.openscap
 If you do not want a global installation, clone it into your `roles_path`.
 
 ```bash
-git clone git@github.com:stephrobert/ansible-role-openscap.git  stephrobert.openscap
+git clone https://github.com/stephrobert/ansible-role-openscap.git  stephrobert.openscap
 ```
 
 But I often add it as a submodule in a given `playbook_dir` repository.
 
 ```bash
-git submodule add git@github.com:stephrobert/ansible-role-openscap.git roles/stephrobert.openscap
+git submodule add https://github.com/stephrobert/ansible-role-openscap.git roles/stephrobert.openscap
 ```
 
 As the role is not managed by Ansible Galaxy, you do not have to specify the
@@ -59,10 +59,10 @@ Basic usage is:
   roles:
     - role: stephrobert.openscap
       vars:
-        content_version: 0.1.71
+        content_version: 0.1.74
         install_content: false
         install_oscap: true
-        oscap_version: 1.3.9
+        oscap_version: 1.4.0
         reports_folder: /opt/openscap-reports
         scan: false
         
@@ -87,8 +87,8 @@ Role default variables from `defaults/main.yml`.
 |---------------|-------|
 | install_content | False |
 | install_oscap | True |
-| oscap_version | 1.3.9 |
-| content_version | 0.1.71 |
+| oscap_version | 1.4.0 |
+| content_version | 0.1.74 |
 | scan | False |
 | reports_folder | /opt/openscap-reports |
 

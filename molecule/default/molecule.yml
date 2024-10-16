@@ -9,11 +9,6 @@ platforms:
     memory: 2048
     cpus: 3
     ssh_user: ansible
-  - name: debian-openscap
-    image: debian_ansible
-    memory: 2048
-    cpus: 3
-    ssh_user: ansible
 provisioner:
   name: ansible
 
